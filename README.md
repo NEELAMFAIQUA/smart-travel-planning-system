@@ -1,7 +1,8 @@
 # Travel Planner
 
-An original itinerary-planning demo with sample activities and a transparent
-daily budget estimate.
+An original multi-role travel-planning demo. Destination research, interest
+matching, lodging/transport estimation, and budget review appear as explicit
+planner handoffs over a small local sample guide.
 
 ## Run
 
@@ -12,6 +13,7 @@ python -m pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Activities, hours, and costs are illustrative samples—not live availability,
-travel advice, reservations, or booking prices. Confirm details with providers.
+Planner roles run locally over sample data; they are not live travel agents.
+Activities and costs are illustrative—not live availability, advice,
+reservations, or booking prices. Confirm details with providers.
 Run tests with `python -m unittest discover -s tests -v`.

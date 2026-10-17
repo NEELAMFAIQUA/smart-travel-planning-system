@@ -1,6 +1,6 @@
 import unittest
 
-from planner import build_itinerary, estimate_total
+from planner import build_itinerary, estimate_total, plan_with_agents
 
 
 class PlannerTests(unittest.TestCase):
@@ -18,6 +18,12 @@ class PlannerTests(unittest.TestCase):
     def test_invalid_days_raise(self):
         with self.assertRaises(ValueError):
             build_itinerary("Lisbon", 0)
+
+    def test_agent_team_returns_specialists_and_budget(self):
+        plan = plan_with_agents("Kyoto", 3, ["nature"], 1200)
+        self.assertEqual(len(plan["agents"]), 4)
+        self.assertIn("within_budget", plan["budget"])
+        self.assertEqual(len(plan["itinerary"]), 3)
 
 
 if __name__ == "__main__":

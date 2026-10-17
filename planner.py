@@ -44,3 +44,33 @@ def estimate_total(itinerary, daily_food_allowance=35):
     if daily_food_allowance < 0:
         raise ValueError("daily_food_allowance cannot be negative")
     return sum(item["cost"] for item in itinerary) + len(itinerary) * daily_food_allowance
+
+
+def plan_with_agents(destination, days, interests=(), total_budget=1500):
+    """Run a deterministic travel-planning team over the offline sample guide."""
+    if total_budget <= 0:
+        raise ValueError("total_budget must be positive")
+    itinerary = build_itinerary(destination, days, interests)
+    activity_cost = sum(item["cost"] for item in itinerary)
+    daily_food = min(45, total_budget / (days * 3))
+    food_cost = round(daily_food * days)
+    transit_cost = 18 * days
+    lodging_cost = 95 * days
+    estimate = activity_cost + food_cost + transit_cost + lodging_cost
+    return {
+        "itinerary": itinerary,
+        "budget": {
+            "activities": activity_cost,
+            "food": food_cost,
+            "local_transport": transit_cost,
+            "sample_lodging": lodging_cost,
+            "total": estimate,
+            "within_budget": estimate <= total_budget,
+        },
+        "agents": [
+            {"role": "Destination researcher", "result": f"Selected {destination} from the local guide."},
+            {"role": "Experience planner", "result": f"Matched activities to {', '.join(interests) if interests else 'general'} interests."},
+            {"role": "Stay and transport planner", "result": f"Used illustrative lodging and local transit estimates for {days} days."},
+            {"role": "Budget analyst", "result": f"Estimated ${estimate}; user budget is ${total_budget}."},
+        ],
+    }
